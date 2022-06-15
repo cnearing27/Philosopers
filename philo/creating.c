@@ -6,11 +6,25 @@
 /*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 16:13:19 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/15 16:17:03 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/15 17:11:56 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	mutex_init(t_threads	*t)
+{
+	int i;
+
+	pthread_mutex_init(&(t->writing), NULL);
+	i = 0;
+	while (i < t->num_ph)
+	{
+		pthread_mutex_init(&(t->forks[i]), NULL);
+		i++;
+	}
+	pthread_mutex_init(&(t->status_eat), NULL);
+}
 
 int	t_init(t_threads	*t, int argc, char	**argv)
 {
@@ -24,13 +38,10 @@ int	t_init(t_threads	*t, int argc, char	**argv)
 	else
 		t->num_eats = -2;
 	t->is_died = 0;
-	if (t->num_ph < 2 || t->time_to_die < 0 || t->time_to_eat < 0
-		|| t->time_to_sleep < 0)
-		return (0);
-	if (argc == 6 && t->num_eats <= 0)
+	if ((t->num_ph < 2 || t->time_to_die < 0 || t->time_to_eat < 0
+			|| t->time_to_sleep < 0) || (argc == 6 && t->num_eats <= 0))
 		return (0);
 	t->phi = malloc(sizeof(t_philo) * t->num_ph);
-	init_philos(t);
 	return (1);
 }
 
@@ -47,7 +58,7 @@ void	init_philos(t_threads *t)
 	{
 		t->phi[i].id = i;
 		t->phi[i].eat_num = 0;
-		t->phi[i].last_eat = 0;
+		t->phi[i].last_eat = get_time();
 		if (i != 1)
 			t->phi[i].fork_left = i - 1;
 		else

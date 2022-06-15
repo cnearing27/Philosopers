@@ -6,13 +6,13 @@
 /*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:44:34 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/15 16:16:30 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/15 17:18:00 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long long int	ft_atoi(const char	*str) // переделать 
+long long int	ft_atoi(const char	*str)
 {
 	int				i;
 	long long int	num;
@@ -26,7 +26,7 @@ long long int	ft_atoi(const char	*str) // переделать
 		num = num * 10 + (str[i] - '0');
 		i++;
 	}
-	if (i == 0)
+	if (i == 0 || str[i])
 		return (-1);
 	return (num);
 }
@@ -39,7 +39,7 @@ void	freee(t_threads	*t)
 		free(t->phi);
 }
 
-long long	get_time(void)
+unsigned long long	get_time(void)
 {
 	struct timeval	t;
 

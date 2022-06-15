@@ -17,13 +17,10 @@ void	*start_emulation(void *arg)
 	t_philo	*p;
 
 	p = (t_philo *)arg;
-	printf("%lld №%d created\n", get_time() - p->info->start_time, p->id);
-	while (1)
+//	printf("%lld №%d created\n", get_time() - p->info->start_time, p->id);
+	while (!(p->info->is_died))
 	{
-		//init
-		//wait
-		//eat
-		//sleep
+		eat(p);
 	}
 	pthread_exit(NULL);
 }
@@ -37,6 +34,8 @@ int	main(int argc, char	**argv)
 		return (0);
 	if (t_init(&t, argc, argv) == 0)
 		return (0);
+	init_philos(&t);
+	mutex_init(&t);
 	i = 0;
 	while (i < t.num_ph)
 	{

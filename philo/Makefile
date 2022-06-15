@@ -1,6 +1,7 @@
-SRCS		=	creating.c helps1.c main.c
+SRCS		= creating.c helps1.c main.c actions.c
+DIR			= objs
 
-HEADER		=	philo.h
+HEADER		= philo.h
 
 OBJS		= $(SRCS:.c=.o)
 
