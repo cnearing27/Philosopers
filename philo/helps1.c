@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helps1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cnearing <cnearing@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:44:34 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/15 17:18:00 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:12:33 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ void	freee(t_threads	*t)
 	if (t->forks)
 		free(t->forks);
 	if (t->phi)
+	{
+		// нужно ли чистить т.фи.инфо ???
 		free(t->phi);
+	}
 }
 
 unsigned long long	get_time(void)
@@ -53,4 +56,19 @@ void	print_status(t_threads	*t, int i, char	*line)
 	if (!(t->is_died))
 		printf("%lld %d %s\n", get_time() - t->start_time, i, line);
 	pthread_mutex_unlock(&(t->writing));
+}
+
+void	clean(t_threads	*t) // + (new func)
+{
+	int	i;
+
+	pthread_mutex_destroy(&(t->status_eat));
+	i = 0;
+	while (i < t->num_ph)
+	{
+		pthread_mutex_destroy(&(t->forks[i]));
+		i++;
+	}
+	pthread_mutex_destroy(&(t->writing));
+	freee(t);
 }

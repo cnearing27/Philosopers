@@ -18,7 +18,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/time.h>
-# include <pthread.h> 
+# include <pthread.h>
 
 typedef struct philosophers
 {
@@ -39,6 +39,7 @@ typedef struct t_threads
 	long long int		time_to_eat;
 	long long int		time_to_sleep;
 	long long int		num_eats;
+	long long int		all_eats; // + (new attribute)
 	int					is_died;
 	pthread_mutex_t		status_eat;
 	pthread_mutex_t		*forks;
@@ -56,5 +57,6 @@ unsigned long  long	get_time(void);
 void				mutex_init(t_threads	*t);
 void				print_status(t_threads	*t, int i, char	*line);
 void				eat(t_philo	*p);
+void				clean(t_threads	*t); // + (new in helps1.c)
 
 #endif
