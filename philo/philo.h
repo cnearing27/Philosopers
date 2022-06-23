@@ -26,7 +26,7 @@ typedef struct philosophers
 	int					eat_num;
 	int					fork_left;
 	int					fork_right;
-	unsigned long		last_eat;
+	unsigned long long	last_eat;
 	pthread_t			id_thread;
 	struct t_threads	*info;
 }	t_philo;
@@ -34,12 +34,12 @@ typedef struct philosophers
 typedef struct t_threads
 {
 	unsigned long long	start_time;
-	long long int		num_ph;
-	long long int		time_to_die;
+	int					num_ph;
+	unsigned long long	time_to_die;
 	long long int		time_to_eat;
 	long long int		time_to_sleep;
 	long long int		num_eats;
-	long long int		all_eats; // + (new attribute)
+	long long int		all_eats;
 	int					is_died;
 	pthread_mutex_t		status_eat;
 	pthread_mutex_t		*forks;
@@ -52,11 +52,11 @@ int					t_init(t_threads	*t, int argc, char	**argv);
 void				freee(t_threads	*t);
 void				*new_philo(void	*args);
 int					check_info(t_threads t, int argc);
-void				init_philos(t_threads *t);
-unsigned long  long	get_time(void);
-void				mutex_init(t_threads	*t);
+int					init_philos(t_threads *t);
+unsigned long long	get_time(void);
+int					mutex_init(t_threads	*t);
 void				print_status(t_threads	*t, int i, char	*line);
 void				eat(t_philo	*p);
-void				clean(t_threads	*t); // + (new in helps1.c)
+void				clean(t_threads	*t);
 
 #endif

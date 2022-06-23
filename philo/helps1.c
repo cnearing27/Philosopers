@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helps1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnearing <cnearing@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:44:34 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/21 15:12:33 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/23 16:54:08 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ void	freee(t_threads	*t)
 	if (t->forks)
 		free(t->forks);
 	if (t->phi)
-	{
-		// нужно ли чистить т.фи.инфо ???
 		free(t->phi);
-	}
 }
 
 unsigned long long	get_time(void)
@@ -58,7 +55,7 @@ void	print_status(t_threads	*t, int i, char	*line)
 	pthread_mutex_unlock(&(t->writing));
 }
 
-void	clean(t_threads	*t) // + (new func)
+void	clean(t_threads	*t)
 {
 	int	i;
 
