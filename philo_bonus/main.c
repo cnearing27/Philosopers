@@ -12,9 +12,55 @@
 
 #include "philo.h"
 
+void	*start_emulation(void *arg)
+{
+	t_philo	*p;
+
+	p = (t_philo *)arg;
+	while (!(p->info->is_died))
+	{
+		eat(p);
+		if (p->info->all_eats)
+			break ;
+		print_status(p->info, p->id + 1, "is sleeping");
+		w_for(get_time(), p->info->time_to_sleep);
+		print_status(p->info, p->id + 1, "is thinking");
+	}
+	pthread_exit(NULL);
+}
+
+void	start_spectator(t_s	*t)
+{
+	int	i;
+
+	while (!(t->all_eats == 1))
+	{
+		i = 0;
+		while ((i < t->num_ph) && !(t->is_died))
+		{
+			sem_wait(t->status_eat);
+			if ((get_time() - t->phi[i].last_eat) >= t->time_to_die)
+			{
+				print_status(t, i + 1, "died");
+				t->is_died = 1;
+			}
+			sem_post(t->status_eat);
+			i++;
+			usleep(100);
+		}
+		if (t->is_died)
+			break ;
+		i = 0;
+		while (t->phi[i].eat_num >= t->num_eats && t->num_eats != -2)
+			i++;
+		if (i == t->num_ph)
+			t->all_eats = 1;
+	}
+}
+
 int	main(int argc, char	**argv)
 {
-	t_threads		t;
+	t_s				t;
 	long long int	i;
 
 	if (argc != 5 && argc != 6)

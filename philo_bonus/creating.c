@@ -6,30 +6,25 @@
 /*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 16:13:19 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/24 13:02:37 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/24 13:36:55 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	mutex_init(t_threads	*t)
+int	semph_init(t_s	*t)
 {
 	int	i;
 
-	if (pthread_mutex_init(&(t->writing), NULL))
-		return (0);
+	t->status_eat = sem_open("eat", O_CREAT);
 	i = -1;
 	while (++i < t->num_ph)
-	{
-		if (pthread_mutex_init(&(t->forks[i]), NULL))
-			return (0);
-	}
-	if (pthread_mutex_init(&(t->status_eat), NULL))
-		return (0);
+		t->forks[i] = sem_open(ft_itoa(i), O_CREAT);
+	t->writing = sem_open("wri", O_CREAT);
 	return (1);
 }
 
-int	t_init(t_threads	*t, int argc, char	**argv)
+int	t_init(t_s	*t, int argc, char	**argv)
 {
 	t->num_ph = ft_atoi(argv[1]);
 	t->time_to_die = ft_atoi(argv[2]);
@@ -47,7 +42,7 @@ int	t_init(t_threads	*t, int argc, char	**argv)
 		return (0);
 	}
 	t->all_eats = 0;
-	t->forks = malloc(sizeof(pthread_mutex_t) * t->num_ph);
+	t->forks = malloc(sizeof(sem_t) * t->num_ph);
 	if (!t->forks)
 		return (0);
 	if (!init_philos(t))
@@ -55,7 +50,7 @@ int	t_init(t_threads	*t, int argc, char	**argv)
 	return (1);
 }
 
-int	init_philos(t_threads *t)
+int	init_philos(t_s *t)
 {
 	int	i;
 
@@ -68,15 +63,10 @@ int	init_philos(t_threads *t)
 		t->phi[i].id = i;
 		t->phi[i].eat_num = 0;
 		t->phi[i].last_eat = get_time();
-		if (i != 0)
-			t->phi[i].fork_left = i - 1;
-		else
-			t->phi[i].fork_left = t->num_ph;
-		t->phi[i].fork_right = i;
 		t->phi[i].info = t;
 		i++;
 	}
-	if (!mutex_init(t))
+	if (!semph_init(t))
 		return (0);
 	return (1);
 }
