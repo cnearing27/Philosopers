@@ -35,8 +35,8 @@ typedef struct t_threads
 {
 	unsigned long long	start_time;
 	int					num_ph;
-	unsigned long long	time_to_die;
-	unsigned long long	time_to_eat;
+	long long			time_to_die;
+	long long			time_to_eat;
 	long long int		time_to_sleep;
 	long long int		num_eats;
 	long long int		all_eats;

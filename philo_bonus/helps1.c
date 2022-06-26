@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helps1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cnearing <cnearing@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:44:34 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/24 13:33:45 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/26 20:42:46 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ long long int	ft_atoi(const char	*str)
 
 void	freee(t_s	*t)
 {
-	if (t->forks)
-		free(t->forks);
 	if (t->phi)
 		free(t->phi);
 }
@@ -61,12 +59,10 @@ void	clean(t_s	*t)
 	int	i;
 
 	sem_close(t->status_eat);
-	i = 0;
-	while (i < t->num_ph)
-	{
-		sem_close(t->forks[i]);
-		i++;
-	}
+	sem_close(t->forks);
 	sem_close(t->writing);
+	sem_unlink("/eat");
+	sem_unlink("/forks");
+	sem_unlink("/write");
 	freee(t);
 }

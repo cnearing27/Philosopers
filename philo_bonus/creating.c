@@ -3,24 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   creating.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cnearing <cnearing@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 16:13:19 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/24 13:36:55 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/26 20:41:28 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 int	semph_init(t_s	*t)
-{
-	int	i;
-
-	t->status_eat = sem_open("eat", O_CREAT);
-	i = -1;
-	while (++i < t->num_ph)
-		t->forks[i] = sem_open(ft_itoa(i), O_CREAT);
-	t->writing = sem_open("wri", O_CREAT);
+{	// https://www.ibm.com/docs/en/i/7.1?topic=ssw_ibm_i_71/apis/ipcsemo.htm
+	sem_unlink("/forks");
+	sem_unlink("/eat");
+	sem_unlink("/write");
+	t->status_eat = sem_open("/eat", O_CREAT, S_IRWXU, 1);
+	if (t->status_eat == SEM_FAILED)
+		return (0);
+	t->forks = sem_open("/forks", O_CREAT, S_IRWXU, t->num_ph);
+	if (t->forks == SEM_FAILED)
+		return (0);
+	t->writing = sem_open("/write", O_CREAT, S_IRWXU, 1);
+	if (t->writing == SEM_FAILED)
+		return (0);
+	if (!init_philos(t))
+		return (0);
 	return (1);
 }
 
@@ -42,10 +49,7 @@ int	t_init(t_s	*t, int argc, char	**argv)
 		return (0);
 	}
 	t->all_eats = 0;
-	t->forks = malloc(sizeof(sem_t) * t->num_ph);
-	if (!t->forks)
-		return (0);
-	if (!init_philos(t))
+	if (!semph_init(t))
 		return (0);
 	return (1);
 }
@@ -62,11 +66,9 @@ int	init_philos(t_s *t)
 	{
 		t->phi[i].id = i;
 		t->phi[i].eat_num = 0;
-		t->phi[i].last_eat = get_time();
+		t->phi[i].last_eat = 0;
 		t->phi[i].info = t;
 		i++;
 	}
-	if (!semph_init(t))
-		return (0);
 	return (1);
 }

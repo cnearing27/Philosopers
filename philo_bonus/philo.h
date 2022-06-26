@@ -35,14 +35,14 @@ typedef struct my_struct
 {
 	unsigned long long	start_time;
 	int					num_ph;
-	unsigned long long	time_to_die;
-	unsigned long long	time_to_eat;
+	long long			time_to_die;
+	long long			time_to_eat;
 	long long int		time_to_sleep;
 	long long int		num_eats;
 	long long int		all_eats;
 	int					is_died;
 	sem_t				*status_eat;
-	sem_t				**forks;
+	sem_t				*forks;
 	sem_t				*writing;
 	t_philo				*phi;
 }	t_s;

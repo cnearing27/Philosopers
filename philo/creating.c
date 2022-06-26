@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   creating.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cnearing <cnearing@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 16:13:19 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/24 13:02:37 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/26 20:27:43 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	init_philos(t_threads *t)
 	{
 		t->phi[i].id = i;
 		t->phi[i].eat_num = 0;
-		t->phi[i].last_eat = get_time();
+		t->phi[i].last_eat = 0; // ()gettimme
 		if (i != 0)
 			t->phi[i].fork_left = i - 1;
 		else
