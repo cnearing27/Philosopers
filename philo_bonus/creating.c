@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   creating.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnearing <cnearing@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 16:13:19 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/26 20:41:28 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/27 13:32:44 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 int	semph_init(t_s	*t)
-{	// https://www.ibm.com/docs/en/i/7.1?topic=ssw_ibm_i_71/apis/ipcsemo.htm
+{
 	sem_unlink("/forks");
 	sem_unlink("/eat");
 	sem_unlink("/write");
@@ -42,13 +42,12 @@ int	t_init(t_s	*t, int argc, char	**argv)
 	else
 		t->num_eats = -2;
 	t->is_died = 0;
-	if ((t->num_ph < 1 || t->time_to_die < 0 || t->time_to_eat < 0
-			|| t->time_to_sleep < 0) || (argc == 6 && t->num_eats <= 0))
+	if ((t->num_ph < 1 || t->time_to_die <= 0 || t->time_to_eat <= 0
+			|| t->time_to_sleep <= 0) || (argc == 6 && t->num_eats <= 0))
 	{
 		printf("wrong arguments!\n");
 		return (0);
 	}
-	t->all_eats = 0;
 	if (!semph_init(t))
 		return (0);
 	return (1);

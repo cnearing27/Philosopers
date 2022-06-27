@@ -21,12 +21,14 @@
 # include <sys/wait.h> // waitpid
 # include <semaphore.h>
 # include <pthread.h>
+# include <signal.h>
 
 typedef struct philosophers
 {
 	int					id;
 	int					eat_num;
 	unsigned long long	last_eat;
+	pid_t				id_proc;
 	pthread_t			id_thread;
 	struct my_struct	*info;
 }	t_philo;
@@ -35,11 +37,10 @@ typedef struct my_struct
 {
 	unsigned long long	start_time;
 	int					num_ph;
-	long long			time_to_die;
+	unsigned long long	time_to_die;
 	long long			time_to_eat;
 	long long int		time_to_sleep;
 	long long int		num_eats;
-	long long int		all_eats;
 	int					is_died;
 	sem_t				*status_eat;
 	sem_t				*forks;
@@ -48,7 +49,7 @@ typedef struct my_struct
 }	t_s;
 
 long long int		ft_atoi(const char	*str);
-char				*ft_itoa(int	n);
+char				*ft_itoa(int n);
 int					t_init(t_s	*t, int argc, char	**argv);
 void				freee(t_s	*t);
 void				*new_philo(void	*args);
@@ -60,5 +61,6 @@ void				print_status(t_s	*t, int i, char	*line);
 void				eat(t_philo	*p);
 void				w_for(unsigned long long w_start, unsigned long long w_f);
 void				clean(t_s	*t);
+void				*start_spectator(void	*arg);
 
 #endif

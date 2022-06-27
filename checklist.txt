@@ -1,1 +1,9 @@
 https://github.com/mharriso/school21-checklists/blob/master/ng_4_philosophers.pdf
+
+
+про сем опен
+https://www.ibm.com/docs/en/i/7.1?topic=ssw_ibm_i_71/apis/ipcsemo.htm
+
+
+про вэйтпид
+https://www.opennet.ru/man.shtml?topic=waitpid&category=2&russian=0

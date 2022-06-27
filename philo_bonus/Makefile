@@ -9,12 +9,12 @@ NAME		= philo_bonus
 
 CC			= cc
 RM			= rm -f
-FLAGS		= -Wall -Wextra -Werror -I.
+FLAGS		= -Wall -Wextra -Werror -fsanitize=address
 
 all:	$(NAME)
 
 $(NAME):		$(OBJS)
-			$(CC) $(OBJS) -o $(NAME)
+			$(CC) $(FLAGS) $(OBJS) -o $(NAME)
 
 %.o:			%.c $(HEADER)
 			$(CC) $(FLAGS) -c $< -o $@

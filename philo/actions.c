@@ -6,7 +6,7 @@
 /*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 13:59:13 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/24 14:14:22 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/27 14:38:36 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	eat(t_philo	*p)
 		pthread_mutex_lock(&(p->info->status_eat));
 		print_status(p->info, p->id + 1, "is eating");
 		p->last_eat = get_time();
+		p->eat_num++;
 		pthread_mutex_unlock(&(p->info->status_eat));
 		w_for(get_time(), p->info->time_to_eat);
-		p->eat_num++;
 		pthread_mutex_unlock(&(p->info->forks[p->fork_left]));
 		pthread_mutex_unlock(&(p->info->forks[p->fork_right]));
 	}

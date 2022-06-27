@@ -12,50 +12,41 @@
 
 #include "philo.h"
 
-void	*start_emulation(void *arg)
+void	start_emulation(t_philo	*p)
+{
+	p->last_eat = get_time();
+	pthread_create(&p->id_thread, NULL, start_spectator, p);
+	pthread_detach(p->id_thread);
+	while (p->info->is_died == 0)
+	{
+		eat(p);
+		if (p->eat_num >= p->info->num_eats && p->info->num_eats != -2)
+			break ;
+		print_status(p->info, p->id + 1, "is sleeping");
+		w_for(get_time(), p->info->time_to_sleep);
+		print_status(p->info, p->id + 1, "is thinking");
+	}
+	usleep(100);
+}
+
+void	*start_spectator(void	*arg)
 {
 	t_philo	*p;
 
 	p = (t_philo *)arg;
 	while (!(p->info->is_died))
 	{
-		eat(p);
-		if (p->info->all_eats)
-			break ;
-		print_status(p->info, p->id + 1, "is sleeping");
-		w_for(get_time(), p->info->time_to_sleep);
-		print_status(p->info, p->id + 1, "is thinking");
-	}
-	pthread_exit(NULL);
-}
-
-void	start_spectator(t_s	*t)
-{
-	int	i;
-
-	while (!(t->all_eats == 1))
-	{
-		i = 0;
-		while ((i < t->num_ph) && !(t->is_died))
+		sem_wait(p->info->status_eat);
+		if ((get_time() - p->last_eat) > p->info->time_to_die)
 		{
-			sem_wait(t->status_eat);
-			if ((get_time() - t->phi[i].last_eat) >= t->time_to_die)
-			{
-				print_status(t, i + 1, "died");
-				t->is_died = 1;
-			}
-			sem_post(t->status_eat);
-			i++;
-			usleep(100);
+			print_status(p->info, (p->id) + 1, "died");
+			sem_wait(p->info->writing);
+			p->info->is_died = 1;
+			exit (4);
 		}
-		if (t->is_died)
-			break ;
-		i = 0;
-		while (t->phi[i].eat_num >= t->num_eats && t->num_eats != -2)
-			i++;
-		if (i == t->num_ph)
-			t->all_eats = 1;
+		sem_post(p->info->status_eat);
 	}
+	return (NULL);
 }
 
 int	main(int argc, char	**argv)
@@ -71,12 +62,12 @@ int	main(int argc, char	**argv)
 	t.start_time = get_time();
 	while (i < t.num_ph)
 	{
-		pthread_create(&(t.phi[i].id_thread), 0, start_emulation, &t.phi[i]);
-		t.phi[i].last_eat = get_time();
-		usleep(50);
-		pthread_detach(t.phi[i].id_thread);
+		t.phi[i].id_proc = fork();
+		if (t.phi[i].id_proc < 0)
+			return (0);
+		if (t.phi[i].id_proc == 0)
+			start_emulation(&t.phi[i]);
 		i++;
 	}
-	start_spectator(&t);
 	clean(&t);
 }

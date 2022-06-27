@@ -6,7 +6,7 @@
 /*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:44:34 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/23 16:54:08 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/27 10:18:57 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ long long int	ft_atoi(const char	*str)
 		i++;
 	}
 	if (i == 0 || str[i])
-		return (-1);
+		return (0);
 	return (num);
 }
 

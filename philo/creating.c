@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   creating.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnearing <cnearing@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 16:13:19 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/26 20:27:43 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/27 13:34:47 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int	t_init(t_threads	*t, int argc, char	**argv)
 	else
 		t->num_eats = -2;
 	t->is_died = 0;
-	if ((t->num_ph < 1 || t->time_to_die < 0 || t->time_to_eat < 0
-			|| t->time_to_sleep < 0) || (argc == 6 && t->num_eats <= 0))
+	if ((t->num_ph < 1 || t->time_to_die <= 0 || t->time_to_eat <= 0
+			|| t->time_to_sleep <= 0) || (argc == 6 && t->num_eats <= 0))
 	{
 		printf("wrong arguments!\n");
 		return (0);
@@ -67,7 +67,7 @@ int	init_philos(t_threads *t)
 	{
 		t->phi[i].id = i;
 		t->phi[i].eat_num = 0;
-		t->phi[i].last_eat = 0; // ()gettimme
+		t->phi[i].last_eat = 0;
 		if (i != 0)
 			t->phi[i].fork_left = i - 1;
 		else

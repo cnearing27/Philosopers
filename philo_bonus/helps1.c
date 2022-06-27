@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helps1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnearing <cnearing@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:44:34 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/26 20:42:46 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/27 15:59:46 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,8 @@ long long int	ft_atoi(const char	*str)
 		i++;
 	}
 	if (i == 0 || str[i])
-		return (-1);
+		return (0);
 	return (num);
-}
-
-void	freee(t_s	*t)
-{
-	if (t->phi)
-		free(t->phi);
 }
 
 unsigned long long	get_time(void)
@@ -51,18 +45,42 @@ void	print_status(t_s	*t, int i, char	*line)
 	if (!(t->is_died))
 		printf("%lld %d %s\n", get_time() - t->start_time, i, line);
 	sem_post(t->writing);
-
 }
 
-void	clean(t_s	*t)
+void	close_sem(t_s	*t)
 {
-	int	i;
-
 	sem_close(t->status_eat);
 	sem_close(t->forks);
 	sem_close(t->writing);
 	sem_unlink("/eat");
 	sem_unlink("/forks");
 	sem_unlink("/write");
-	freee(t);
+	free(t->phi);
+}
+
+void	clean(t_s	*t)
+{
+	int	i;
+	int	status;
+	int	full;
+
+	full = 0;
+	i = 0;
+	while (1)
+	{
+		waitpid(-1, &status, 0);
+		status = status >> 8;
+		if (status == 4)
+			break ;
+		if (status == 5)
+			full++;
+		if (full == t->num_ph)
+			break ;
+	}
+	while (i < t->num_ph)
+	{
+		kill(t->phi[i].id_proc, 9);
+		i++;
+	}
+	close_sem(t);
 }
