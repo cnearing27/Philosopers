@@ -6,7 +6,7 @@
 /*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 16:13:19 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/27 13:32:44 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/28 16:17:15 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,6 @@ int	init_philos(t_s *t)
 {
 	int	i;
 
-	t->phi = malloc(sizeof(t_philo) * t->num_ph);
-	if (!t->phi)
-		return (0);
 	i = 0;
 	while (i < t->num_ph)
 	{

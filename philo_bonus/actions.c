@@ -6,7 +6,7 @@
 /*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 13:59:13 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/27 15:28:09 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/28 16:21:33 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,5 @@ void	eat(t_philo	*p)
 	{
 		sem_wait(p->info->forks);
 		print_status(p->info, p->id + 1, "has taken a fork");
-		sem_post(p->info->forks);
 	}
 }

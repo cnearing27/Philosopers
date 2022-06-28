@@ -45,7 +45,7 @@ typedef struct my_struct
 	sem_t				*status_eat;
 	sem_t				*forks;
 	sem_t				*writing;
-	t_philo				*phi;
+	t_philo				phi[200];
 }	t_s;
 
 long long int		ft_atoi(const char	*str);

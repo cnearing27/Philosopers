@@ -9,7 +9,7 @@ NAME		= philo
 
 CC			= cc
 RM			= rm -f
-FLAGS		= -Wall -Wextra -Werror -fsanitize=address
+FLAGS		= -Wall -Wextra -Werror
 
 all:	$(NAME)
 

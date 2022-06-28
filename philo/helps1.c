@@ -6,7 +6,7 @@
 /*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:44:34 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/27 10:18:57 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/28 14:48:41 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,6 @@ long long int	ft_atoi(const char	*str)
 	return (num);
 }
 
-void	freee(t_threads	*t)
-{
-	if (t->forks)
-		free(t->forks);
-	if (t->phi)
-		free(t->phi);
-}
-
 unsigned long long	get_time(void)
 {
 	struct timeval	t;
@@ -59,7 +51,6 @@ void	clean(t_threads	*t)
 {
 	int	i;
 
-	pthread_mutex_destroy(&(t->status_eat));
 	i = 0;
 	while (i < t->num_ph)
 	{
@@ -67,5 +58,4 @@ void	clean(t_threads	*t)
 		i++;
 	}
 	pthread_mutex_destroy(&(t->writing));
-	freee(t);
 }

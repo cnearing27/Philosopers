@@ -6,7 +6,7 @@
 /*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 16:13:19 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/27 13:34:47 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/28 15:11:57 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int	mutex_init(t_threads	*t)
 		if (pthread_mutex_init(&(t->forks[i]), NULL))
 			return (0);
 	}
-	if (pthread_mutex_init(&(t->status_eat), NULL))
-		return (0);
 	return (1);
 }
 
@@ -47,9 +45,6 @@ int	t_init(t_threads	*t, int argc, char	**argv)
 		return (0);
 	}
 	t->all_eats = 0;
-	t->forks = malloc(sizeof(pthread_mutex_t) * t->num_ph);
-	if (!t->forks)
-		return (0);
 	if (!init_philos(t))
 		return (0);
 	return (1);
@@ -59,9 +54,6 @@ int	init_philos(t_threads *t)
 {
 	int	i;
 
-	t->phi = malloc(sizeof(t_philo) * t->num_ph);
-	if (!t->phi)
-		return (0);
 	i = 0;
 	while (i < t->num_ph)
 	{

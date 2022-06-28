@@ -26,9 +26,8 @@ int	main(int argc, char	**argv)
 	while (i < t.num_ph)
 	{
 		pthread_create(&(t.phi[i].id_thread), 0, start_emulation, &t.phi[i]);
-		t.phi[i].last_eat = get_time();
-		usleep(50);
 		pthread_detach(t.phi[i].id_thread);
+		t.phi[i].last_eat = get_time();
 		i++;
 	}
 	start_spectator(&t);

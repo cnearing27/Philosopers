@@ -6,7 +6,7 @@
 /*   By: cnearing <cnearing@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:44:34 by cnearing          #+#    #+#             */
-/*   Updated: 2022/06/27 15:59:46 by cnearing         ###   ########.fr       */
+/*   Updated: 2022/06/28 16:44:30 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,10 @@ void	print_status(t_s	*t, int i, char	*line)
 
 void	close_sem(t_s	*t)
 {
-	sem_close(t->status_eat);
 	sem_close(t->forks);
 	sem_close(t->writing);
-	sem_unlink("/eat");
 	sem_unlink("/forks");
 	sem_unlink("/write");
-	free(t->phi);
 }
 
 void	clean(t_s	*t)

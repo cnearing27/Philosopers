@@ -9,7 +9,7 @@ NAME		= philo_bonus
 
 CC			= cc
 RM			= rm -f
-FLAGS		= -Wall -Wextra -Werror -fsanitize=address
+FLAGS		= -Wall -Wextra -Werror #-g3 -fsanitize=thread
 
 all:	$(NAME)
 

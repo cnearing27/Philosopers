@@ -22,9 +22,12 @@ void	start_emulation(t_philo	*p)
 		eat(p);
 		if (p->eat_num >= p->info->num_eats && p->info->num_eats != -2)
 			break ;
-		print_status(p->info, p->id + 1, "is sleeping");
-		w_for(get_time(), p->info->time_to_sleep);
-		print_status(p->info, p->id + 1, "is thinking");
+		if (p->info->num_ph != 1)
+		{
+			print_status(p->info, p->id + 1, "is sleeping");
+			w_for(get_time(), p->info->time_to_sleep);
+			print_status(p->info, p->id + 1, "is thinking");
+		}
 	}
 	usleep(100);
 }

@@ -41,15 +41,13 @@ typedef struct t_threads
 	long long int		num_eats;
 	long long int		all_eats;
 	int					is_died;
-	pthread_mutex_t		status_eat;
-	pthread_mutex_t		*forks;
+	pthread_mutex_t		forks[200];
 	pthread_mutex_t		writing;
-	t_philo				*phi;
+	t_philo				phi[200];
 }	t_threads;
 
 long long int		ft_atoi(const char	*str);
 int					t_init(t_threads	*t, int argc, char	**argv);
-void				freee(t_threads	*t);
 void				*new_philo(void	*args);
 int					check_info(t_threads t, int argc);
 int					init_philos(t_threads *t);
